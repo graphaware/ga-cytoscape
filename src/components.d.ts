@@ -11,6 +11,7 @@ import '@stencil/core';
 import {
   ElementDefinition,
   ElementsDefinition,
+  LayoutOptions,
   Stylesheet,
 } from 'cytoscape';
 
@@ -19,10 +20,12 @@ export namespace Components {
 
   interface GaCytoscape {
     'elements': ElementsDefinition | ElementDefinition[];
+    'layout': LayoutOptions | LayoutOptions[];
     'stylesheet': Stylesheet[] | Promise<Stylesheet[]>;
   }
   interface GaCytoscapeAttributes extends StencilHTMLAttributes {
     'elements'?: ElementsDefinition | ElementDefinition[];
+    'layout'?: LayoutOptions | LayoutOptions[];
     'onCtxmenu'?: (event: CustomEvent) => void;
     'onEdgeClicked'?: (event: CustomEvent) => void;
     'onEdgeMouseOut'?: (event: CustomEvent) => void;

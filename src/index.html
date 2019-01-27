@@ -17,6 +17,16 @@
     <nav class="navbar navbar-light bg-light">
       <span class="navbar-brand">ga-cytoscape</span>
       <form class="form-inline">
+        <select class="form-control mr-2" id="layoutSelect">
+          <option value="cola" selected>cola</option>
+          <option value="random">random</option>
+          <option value="grid">grid</option>
+          <option value="circle">circle</option>
+          <option value="concentric">concentric</option>
+          <option value="breadthfirst">breadthfirst</option>
+          <option value="cose">cose</option>
+          <option value="cose,cola">cose + cola</option>
+        </select>
         <select class="form-control" id="dataSelect">
           <option value="social.json" selected>Social</option>
           <option value="genes.json">Genes</option>

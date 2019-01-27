@@ -1,4 +1,5 @@
 const cmp = document.querySelector('ga-cytoscape');
+const layoutSelect = document.querySelector('#layoutSelect');
 const dataSelect = document.querySelector('#dataSelect');
 
 function fetchDataFile(name) {
@@ -9,6 +10,14 @@ async function applyDataFile(name) {
   cmp.elements = await fetchDataFile(name);
 }
 
+function applyLayout(name) {
+  const layouts = name.split(',');
+  cmp.layout = layouts.map(name => ({name}));
+}
+
+layoutSelect.addEventListener('change', () => {
+  applyLayout(layoutSelect.value);
+});
 dataSelect.addEventListener('change', () => {
   applyDataFile(dataSelect.value);
 });
