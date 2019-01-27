@@ -36,10 +36,7 @@ export class GaCytoscape {
 
   @Event() nodeClicked: EventEmitter;
   @Event() edgeClicked: EventEmitter;
-  @Event({
-    composed: true,
-    bubbles: true,
-  }) nodeMouseOver: EventEmitter;
+  @Event() nodeMouseOver: EventEmitter;
   @Event() edgeMouseOver: EventEmitter;
   @Event() nodeMouseOut: EventEmitter;
   @Event() edgeMouseOut: EventEmitter;
@@ -51,7 +48,7 @@ export class GaCytoscape {
   clickDisabled: boolean;
 
   private componentDidLoad(): void {
-    console.log('componentDidLoad');
+    console.debug('ga-cytocape::componentDidLoad');
 
     this.cy = cytoscape({
       container: this.el.querySelector('.ga-cytoscape'),
@@ -60,7 +57,7 @@ export class GaCytoscape {
         name: 'cola',
       },
       style: this.stylesheet,
-      // wheelSensitivity: 0.33,
+      // wheelSensitivity: 0.33, // this gives annoying console warning
     });
 
     this.registerEventHandlers();
