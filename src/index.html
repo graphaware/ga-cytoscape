@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>Cytoscape Web Component</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="assets/demo.css" >
+
+  <script src="/build/ga-cytoscape.js"></script>
+</head>
+<body>
+
+<div class="app">
+  <div class="app__toolbar">
+    <nav class="navbar navbar-light bg-light">
+      <span class="navbar-brand">ga-cytoscape</span>
+      <form class="form-inline">
+        <select class="form-control" id="dataSelect">
+          <option value="social.json" selected>Social</option>
+          <option value="genes.json">Genes</option>
+        </select>
+      </form>
+    </nav>
+  </div>
+  <div class="app__view">
+    <ga-cytoscape></ga-cytoscape>
+  </div>
+</div>
+
+<script src="assets/demo.js"></script>
+
+</body>
+</html>

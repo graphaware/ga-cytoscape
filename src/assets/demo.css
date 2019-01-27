@@ -1,0 +1,14 @@
+.app {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100vh;
+}
+
+.app__toolbar {
+  flex: 0;
+}
+
+.app__view {
+  flex: 1;
+  position: relative;
+}
