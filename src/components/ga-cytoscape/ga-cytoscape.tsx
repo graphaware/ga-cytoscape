@@ -41,35 +41,32 @@ export class GaCytoscape {
   layoutChanged(newValue: LayoutOptions | LayoutOptions[]): void {
     this.cy.stop(); // is this necessary?
 
-    const currentRunningLayoutsBatch = this.currentLayouts[this.currentLayoutsBatchIndex];
-    if (currentRunningLayoutsBatch) {
-      currentRunningLayoutsBatch.forEach(l => l.stop());
-      delete this.currentLayouts[this.currentLayoutsBatchIndex];
-    }
+    this.currentLayoutsBatchIndex++;
+    this.currentLayoutsBatch.forEach(l => l.stop());
 
-    const batchIndex = ++this.currentLayoutsBatchIndex;
-    let layoutIndex = -1;
+    const batchIndex = this.currentLayoutsBatchIndex;
+    let layoutIndex = 0;
 
     const layoutConfigs = Array.isArray(newValue)
       ? newValue
       : [newValue];
-    this.currentLayouts[batchIndex] = layoutConfigs.map(config => {
+    this.currentLayoutsBatch = layoutConfigs.map(config => {
       return this.cy.layout(config)
         .on('layoutstop', () => {
           console.log('layout stopped');
-          runNextLayout();
+          runNextLayout(++layoutIndex);
         });
     });
 
-    const runNextLayout = (): void => {
+    const runNextLayout = (index: number): void => {
       if (this.currentLayoutsBatchIndex === batchIndex) {
-        const currentLayoutsBatch = this.currentLayouts[batchIndex];
-        if (++layoutIndex < currentLayoutsBatch.length) {
-          currentLayoutsBatch[layoutIndex].run();
+        if (index < this.currentLayoutsBatch.length) {
+          this.currentLayoutsBatch[index].run();
         }
       }
     };
-    runNextLayout();
+
+    runNextLayout(layoutIndex);
   }
 
   @Event() nodeClicked: EventEmitter;
@@ -83,7 +80,7 @@ export class GaCytoscape {
   @Element() el: HTMLElement;
 
   cy: cytoscape.Core;
-  currentLayouts: {[batchIndex: number]: Layouts[]} = {};
+  currentLayoutsBatch: Layouts[] = [];
   currentLayoutsBatchIndex: number = 0;
   clickDisabled: boolean = false;
 
