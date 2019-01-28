@@ -1,15 +1,16 @@
 import { Component, Element, Event, EventEmitter, Prop, Watch } from '@stencil/core';
 import cytoscape, {
   CollectionArgument,
+  Core,
   EdgeDataDefinition,
   ElementDefinition,
   ElementsDefinition,
   LayoutOptions,
-  Layouts,
   NodeDataDefinition,
   Stylesheet,
 } from 'cytoscape';
 import cola from 'cytoscape-cola';
+import { handleLayoutsChange, LayoutWithOptions } from "../../utils/layout-utils";
 
 // register cola extension
 cytoscape.use(cola);
@@ -39,34 +40,7 @@ export class GaCytoscape {
   @Prop() layout: LayoutOptions | LayoutOptions[] = { name: 'cola' };
   @Watch('layout')
   layoutChanged(newValue: LayoutOptions | LayoutOptions[]): void {
-    this.cy.stop(); // is this necessary?
-
-    this.currentLayoutsBatchIndex++;
-    this.currentLayoutsBatch.forEach(l => l.stop());
-
-    const batchIndex = this.currentLayoutsBatchIndex;
-    let layoutIndex = 0;
-
-    const layoutConfigs = Array.isArray(newValue)
-      ? newValue
-      : [newValue];
-    this.currentLayoutsBatch = layoutConfigs.map(config => {
-      return this.cy.layout(config)
-        .on('layoutstop', () => {
-          console.log('layout stopped');
-          runNextLayout(++layoutIndex);
-        });
-    });
-
-    const runNextLayout = (index: number): void => {
-      if (this.currentLayoutsBatchIndex === batchIndex) {
-        if (index < this.currentLayoutsBatch.length) {
-          this.currentLayoutsBatch[index].run();
-        }
-      }
-    };
-
-    runNextLayout(layoutIndex);
+    this.currentLayoutsBatch = handleLayoutsChange(this.cy, this.currentLayoutsBatch, newValue);
   }
 
   @Event() nodeClicked: EventEmitter;
@@ -79,9 +53,8 @@ export class GaCytoscape {
 
   @Element() el: HTMLElement;
 
-  cy: cytoscape.Core;
-  currentLayoutsBatch: Layouts[] = [];
-  currentLayoutsBatchIndex: number = 0;
+  cy: Core;
+  currentLayoutsBatch: LayoutWithOptions[] = [];
   clickDisabled: boolean = false;
 
   private componentDidLoad(): void {
