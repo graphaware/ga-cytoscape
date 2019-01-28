@@ -2,11 +2,10 @@ import { Component, Element, Event, EventEmitter, Prop, Watch } from '@stencil/c
 import cytoscape, {
   CollectionArgument,
   Core,
-  EdgeDataDefinition,
   ElementDefinition,
   ElementsDefinition,
   LayoutOptions,
-  NodeDataDefinition,
+  Singular,
   Stylesheet,
 } from 'cytoscape';
 import cola from 'cytoscape-cola';
@@ -86,7 +85,7 @@ export class GaCytoscape {
       }
 
       if (e.target !== this.cy) {
-        if (this.isNode(e.target.data())) {
+        if ((e.target as Singular).isNode()) {
           this.nodeClicked.emit(e);
         } else {
           this.edgeClicked.emit(e);
@@ -109,10 +108,6 @@ export class GaCytoscape {
     this.cy.on('mouseout', 'edge', e => {
       this.edgeMouseOut.emit(e);
     });
-  }
-
-  private isNode(data: NodeDataDefinition | EdgeDataDefinition): boolean {
-    return !data.source && !data.target;
   }
 
   render() {
