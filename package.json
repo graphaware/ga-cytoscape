@@ -27,9 +27,13 @@
     "@types/autoprefixer": "^9.1.1",
     "@types/cytoscape": "^3.2.9",
     "@types/jest": "^23.3.13",
+    "@types/puppeteer": "1.6.4",
     "autoprefixer": "^9.4.6",
+    "jest": "23.6.0",
+    "jest-cli": "23.6.0",
     "postcss-nested": "^4.1.1",
-    "postcss-preset-env": "^6.5.0"
+    "postcss-preset-env": "^6.5.0",
+    "puppeteer": "1.8.0"
   },
   "license": "MIT"
 }
