@@ -1,15 +1,17 @@
 import { Component, Element, Event, EventEmitter, Prop, Watch } from '@stencil/core';
 import cytoscape, {
-  CollectionArgument,
   Core,
   ElementDefinition,
   ElementsDefinition,
+  EventObject,
   LayoutOptions,
   Singular,
   Stylesheet,
 } from 'cytoscape';
 import cola from 'cytoscape-cola';
 import { handleLayoutsChange, LayoutWithOptions } from "../../utils/layout-utils";
+import { makeEdgesNonselectable } from "../../utils/selection-utils";
+import { addNewGraph } from "../../utils/element-utils";
 
 // register cola extension
 cytoscape.use(cola);
@@ -20,13 +22,14 @@ cytoscape.use(cola);
   shadow: false, // ShadowDOM has issues with mouseover/mouseout core events :(
 })
 export class GaCytoscape {
-  @Prop() elements: ElementsDefinition | ElementDefinition[];
+  @Prop() elements: ElementsDefinition | ElementDefinition[] | undefined;
   @Watch('elements')
-  elementsChanged(newValue: ElementDefinition | ElementDefinition[] | CollectionArgument | undefined): void {
-    this.cy.elements().remove();
-    if (newValue) {
-      this.cy.add(newValue);
-      this.cy.fit(undefined, 20);
+  elementsChanged(newValue: ElementsDefinition | ElementDefinition[] | undefined): void {
+    addNewGraph(this.cy, newValue);
+    this.cy.fit(undefined, 20);
+
+    if (!this.selectableEdges) {
+      makeEdgesNonselectable(this.cy);
     }
   }
 
@@ -42,13 +45,15 @@ export class GaCytoscape {
     this.currentLayoutsBatch = handleLayoutsChange(this.cy, this.currentLayoutsBatch, newValue);
   }
 
-  @Event() nodeClicked: EventEmitter;
-  @Event() edgeClicked: EventEmitter;
-  @Event() nodeMouseOver: EventEmitter;
-  @Event() edgeMouseOver: EventEmitter;
-  @Event() nodeMouseOut: EventEmitter;
-  @Event() edgeMouseOut: EventEmitter;
-  @Event() ctxmenu: EventEmitter;
+  @Prop() selectableEdges: boolean = false;
+
+  @Event() nodeClicked: EventEmitter<EventObject>;
+  @Event() edgeClicked: EventEmitter<EventObject>;
+  @Event() nodeMouseOver: EventEmitter<EventObject>;
+  @Event() edgeMouseOver: EventEmitter<EventObject>;
+  @Event() nodeMouseOut: EventEmitter<EventObject>;
+  @Event() edgeMouseOut: EventEmitter<EventObject>;
+  @Event() ctxmenu: EventEmitter<EventObject>;
 
   @Element() el: HTMLElement;
 
@@ -61,11 +66,11 @@ export class GaCytoscape {
 
     this.cy = cytoscape({
       container: this.el.querySelector('.ga-cytoscape'),
-      elements: this.elements,
       style: this.stylesheet,
       // wheelSensitivity: 0.33, // this gives annoying console warning
     });
 
+    this.elementsChanged(this.elements);
     this.layoutChanged(this.layout);
     this.registerEventHandlers();
   }

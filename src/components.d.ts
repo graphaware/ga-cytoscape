@@ -11,28 +11,34 @@ import '@stencil/core';
 import {
   ElementDefinition,
   ElementsDefinition,
+  EventObject,
   LayoutOptions,
   Stylesheet,
 } from 'cytoscape';
+import {
+  EventEmitter,
+} from '@stencil/core';
 
 
 export namespace Components {
 
   interface GaCytoscape {
-    'elements': ElementsDefinition | ElementDefinition[];
+    'elements': ElementsDefinition | ElementDefinition[] | undefined;
     'layout': LayoutOptions | LayoutOptions[];
+    'selectableEdges': boolean;
     'stylesheet': Stylesheet[] | Promise<Stylesheet[]>;
   }
   interface GaCytoscapeAttributes extends StencilHTMLAttributes {
-    'elements'?: ElementsDefinition | ElementDefinition[];
+    'elements'?: ElementsDefinition | ElementDefinition[] | undefined;
     'layout'?: LayoutOptions | LayoutOptions[];
-    'onCtxmenu'?: (event: CustomEvent) => void;
-    'onEdgeClicked'?: (event: CustomEvent) => void;
-    'onEdgeMouseOut'?: (event: CustomEvent) => void;
-    'onEdgeMouseOver'?: (event: CustomEvent) => void;
-    'onNodeClicked'?: (event: CustomEvent) => void;
-    'onNodeMouseOut'?: (event: CustomEvent) => void;
-    'onNodeMouseOver'?: (event: CustomEvent) => void;
+    'onCtxmenu'?: (event: CustomEvent<EventObject>) => void;
+    'onEdgeClicked'?: (event: CustomEvent<EventObject>) => void;
+    'onEdgeMouseOut'?: (event: CustomEvent<EventObject>) => void;
+    'onEdgeMouseOver'?: (event: CustomEvent<EventObject>) => void;
+    'onNodeClicked'?: (event: CustomEvent<EventObject>) => void;
+    'onNodeMouseOut'?: (event: CustomEvent<EventObject>) => void;
+    'onNodeMouseOver'?: (event: CustomEvent<EventObject>) => void;
+    'selectableEdges'?: boolean;
     'stylesheet'?: Stylesheet[] | Promise<Stylesheet[]>;
   }
 }

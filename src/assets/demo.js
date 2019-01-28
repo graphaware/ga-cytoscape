@@ -30,12 +30,12 @@ cmp.addEventListener('nodeClicked', e => {
 cmp.addEventListener('edgeClicked', e => {
   console.log('edgeClicked', e.detail.target.data());
 });
-cmp.addEventListener('nodeMouseOver', e => {
-  console.log('nodeMouseOver', e.detail.target.data());
-});
-cmp.addEventListener('edgeMouseOver', e => {
-  console.log('edgeMouseOver', e.detail.target.data());
-});
+// cmp.addEventListener('nodeMouseOver', e => {
+//   console.log('nodeMouseOver', e.detail.target.data());
+// });
+// cmp.addEventListener('edgeMouseOver', e => {
+//   console.log('edgeMouseOver', e.detail.target.data());
+// });
 cmp.addEventListener('ctxmenu', e => {
   console.log('ctxmenu', e.detail.target.data ? e.detail.target.data() : 'canvas');
 });
