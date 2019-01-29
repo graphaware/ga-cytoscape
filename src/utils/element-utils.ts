@@ -9,12 +9,16 @@ export function addNewGraph(
 
   if (elements) {
     // flatten if defined as {nodes, edges}
-    const _elements = elements as ElementsDefinition;
-    if (_elements.nodes && _elements.nodes) {
-      elements = [..._elements.nodes, ..._elements.edges];
+    const prenormalizedElements = elements as ElementsDefinition;
+    if (prenormalizedElements.nodes || prenormalizedElements.edges) {
+      elements = normalizeElements(prenormalizedElements);
     }
     return cy.add(elements as ElementDefinition[]);
   }
 
   return undefined;
+}
+
+export function normalizeElements(elements: ElementsDefinition): ElementDefinition[] {
+  return [...(elements.nodes || []), ...(elements.edges || [])];
 }
