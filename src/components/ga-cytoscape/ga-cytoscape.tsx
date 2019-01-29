@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, Prop, Watch } from '@stencil/core';
+import { Component, Event, EventEmitter, Prop, Watch } from '@stencil/core';
 import cytoscape, {
   Core,
   ElementDefinition,
@@ -55,8 +55,7 @@ export class GaCytoscape {
   @Event() edgeMouseOut: EventEmitter<EventObject>;
   @Event() ctxmenu: EventEmitter<EventObject>;
 
-  @Element() el: HTMLElement;
-
+  cyContainer: HTMLDivElement;
   cy: Core;
   currentLayoutsBatch: LayoutWithOptions[] = [];
   clickDisabled: boolean = false;
@@ -65,7 +64,7 @@ export class GaCytoscape {
     console.debug('ga-cytocape::componentDidLoad');
 
     this.cy = cytoscape({
-      container: this.el.querySelector('.ga-cytoscape'),
+      container: this.cyContainer,
       style: this.stylesheet,
       // wheelSensitivity: 0.33, // this gives annoying console warning
     });
@@ -117,7 +116,7 @@ export class GaCytoscape {
 
   render() {
     return (
-      <div class="ga-cytoscape"></div>
+      <div class="ga-cytoscape" ref={el => this.cyContainer = el}></div>
     );
   }
 }
