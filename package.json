@@ -32,7 +32,9 @@
     "jest-cli": "23.6.0",
     "postcss-nested": "^4.1.1",
     "postcss-preset-env": "^6.5.0",
-    "puppeteer": "1.11.0"
+    "puppeteer": "1.11.0",
+    "tslint": "^5.12.1",
+    "tslint-stencil": "^1.0.0"
   },
   "license": "MIT"
 }

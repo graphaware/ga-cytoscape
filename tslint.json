@@ -1,0 +1,6 @@
+{
+  "extends": ["tslint-stencil/default"],
+  "rules": {
+    "component-member-order": false
+  }
+}
