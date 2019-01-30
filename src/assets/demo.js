@@ -18,7 +18,7 @@ const dataSelect = document.querySelector('#dataSelect');
 // pass data into component
 applyDataFile(dataSelect.value);
 // set cytoscape plugins
-cmp.plugins = [cytoscapeCola];
+cmp.plugins = [cytoscapeCola, cytoscapeCoseBilkent];
 
 // demo seletor listeners
 layoutSelect.addEventListener('change', () => {
