@@ -12,6 +12,7 @@ import {
   ElementDefinition,
   ElementsDefinition,
   EventObject,
+  Ext,
   LayoutOptions,
   Stylesheet,
 } from 'cytoscape';
@@ -25,6 +26,7 @@ export namespace Components {
   interface GaCytoscape {
     'elements': ElementsDefinition | ElementDefinition[] | undefined;
     'layout': LayoutOptions | LayoutOptions[];
+    'plugins': Ext[];
     'selectableEdges': boolean;
     'stylesheet': Stylesheet[] | Promise<Stylesheet[]>;
   }
@@ -38,6 +40,7 @@ export namespace Components {
     'onNodeClicked'?: (event: CustomEvent<EventObject>) => void;
     'onNodeMouseOut'?: (event: CustomEvent<EventObject>) => void;
     'onNodeMouseOver'?: (event: CustomEvent<EventObject>) => void;
+    'plugins'?: Ext[];
     'selectableEdges'?: boolean;
     'stylesheet'?: Stylesheet[] | Promise<Stylesheet[]>;
   }

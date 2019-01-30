@@ -1,13 +1,5 @@
-const cmp = document.querySelector('ga-cytoscape');
-const layoutSelect = document.querySelector('#layoutSelect');
-const dataSelect = document.querySelector('#dataSelect');
-
 function fetchDataFile(name) {
   return fetch(`assets/data/${name}`).then(obj => obj.json());
-}
-
-async function applyDataFile(name) {
-  cmp.elements = await fetchDataFile(name);
 }
 
 function applyLayout(name) {
@@ -15,6 +7,20 @@ function applyLayout(name) {
   cmp.layout = layouts.map(name => ({name}));
 }
 
+async function applyDataFile(name) {
+  cmp.elements = await fetchDataFile(name);
+}
+
+const cmp = document.querySelector('ga-cytoscape');
+const layoutSelect = document.querySelector('#layoutSelect');
+const dataSelect = document.querySelector('#dataSelect');
+
+// pass data into component
+applyDataFile(dataSelect.value);
+// set cytoscape plugins
+cmp.plugins = [cytoscapeCola];
+
+// demo seletor listeners
 layoutSelect.addEventListener('change', () => {
   applyLayout(layoutSelect.value);
 });
@@ -22,8 +28,7 @@ dataSelect.addEventListener('change', () => {
   applyDataFile(dataSelect.value);
 });
 
-applyDataFile(dataSelect.value);
-
+// component listeners
 cmp.addEventListener('nodeClicked', e => {
   console.log('nodeClicked', e.detail.target.data());
 });

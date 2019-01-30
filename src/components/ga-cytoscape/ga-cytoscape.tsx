@@ -4,17 +4,14 @@ import cytoscape, {
   ElementDefinition,
   ElementsDefinition,
   EventObject,
+  Ext,
   LayoutOptions,
   Singular,
   Stylesheet,
 } from 'cytoscape';
-import cola from 'cytoscape-cola';
 import { handleLayoutsChange, LayoutWithOptions } from "../../utils/layout-utils";
 import { makeEdgesNonselectable } from "../../utils/selection-utils";
 import { addNewGraph } from "../../utils/element-utils";
-
-// register cola extension
-cytoscape.use(cola);
 
 @Component({
   tag: 'ga-cytoscape',
@@ -45,6 +42,8 @@ export class GaCytoscape {
     this.currentLayoutsBatch = handleLayoutsChange(this.cy, this.currentLayoutsBatch, newValue);
   }
 
+  @Prop() plugins: Ext[] = [];
+
   @Prop() selectableEdges: boolean = false;
 
   @Event() nodeClicked: EventEmitter<EventObject>;
@@ -62,6 +61,9 @@ export class GaCytoscape {
 
   private componentDidLoad(): void {
     console.debug('ga-cytocape::componentDidLoad');
+    this.plugins.forEach(plugin => {
+      cytoscape.use(plugin);
+    });
 
     this.cy = cytoscape({
       container: this.cyContainer,
