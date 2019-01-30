@@ -1,4 +1,4 @@
-import { Core } from "cytoscape";
+import { Core } from 'cytoscape';
 
 export function makeEdgesNonselectable(cy: Core): void {
   cy.edges().forEach(el => {

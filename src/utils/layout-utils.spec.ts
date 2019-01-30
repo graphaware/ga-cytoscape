@@ -1,5 +1,5 @@
+import cytoscape, { Core } from 'cytoscape';
 import { handleLayoutsChange } from './layout-utils';
-import cytoscape, { Core } from "cytoscape";
 
 describe('handleLayoutsChange', () => {
   let cy: Core;

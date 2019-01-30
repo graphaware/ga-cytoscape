@@ -10,10 +10,10 @@ import cytoscape, {
   Singular,
   Stylesheet,
 } from 'cytoscape';
-import { handleLayoutsChange, LayoutWithOptions } from "../../utils/layout-utils";
-import { makeEdgesNonselectable } from "../../utils/selection-utils";
-import { addNewGraph } from "../../utils/element-utils";
-import { emitDebounced } from "../../utils/event-utils";
+import { addNewGraph } from '../../utils/element-utils';
+import { emitDebounced } from '../../utils/event-utils';
+import { handleLayoutsChange, LayoutWithOptions } from '../../utils/layout-utils';
+import { makeEdgesNonselectable } from '../../utils/selection-utils';
 
 @Component({
   tag: 'ga-cytoscape',
@@ -25,7 +25,7 @@ export class GaCytoscape {
   @Watch('elements')
   elementsChanged(newValue: ElementsDefinition | ElementDefinition[] | undefined): void {
     if (!this.cy) {
-      throw new Error("Elements changed without Cytoscape ready, should not happen")
+      throw new Error('Elements changed without Cytoscape ready, should not happen');
     }
 
     addNewGraph(this.cy, newValue);
@@ -40,7 +40,7 @@ export class GaCytoscape {
   @Watch('layout')
   layoutChanged(newValue: LayoutOptions | LayoutOptions[] | undefined): void {
     if (!this.cy) {
-      throw new Error("Layout changed without Cytoscape ready, should not happen")
+      throw new Error('Layout changed without Cytoscape ready, should not happen');
     }
 
     this.currentLayoutsBatch = handleLayoutsChange(this.cy, this.currentLayoutsBatch, newValue);
@@ -50,7 +50,7 @@ export class GaCytoscape {
   @Watch('stylesheet')
   styleChanged(newValue: Stylesheet | Stylesheet[] | string): void {
     if (!this.cy) {
-      throw new Error("Style changed without Cytoscape ready, should not happen")
+      throw new Error('Style changed without Cytoscape ready, should not happen');
     }
 
     this.cy.style(newValue);
@@ -116,7 +116,7 @@ export class GaCytoscape {
 
   private registerEventHandlers(): void {
     if (!this.cy) {
-      throw new Error("Registering event handlers without Cytoscape ready, should not happen")
+      throw new Error('Registering event handlers without Cytoscape ready, should not happen');
     }
 
     this.cy.on('tap', e => {
@@ -151,12 +151,12 @@ export class GaCytoscape {
     });
     this.cy.on('select unselect', e => {
       emitDebounced(this.selectionChanged, e);
-    })
+    });
   }
 
   render() {
     return (
-      <div class="ga-cytoscape" ref={el => this.cyContainer = el}></div>
+      <div class='ga-cytoscape' ref={el => this.cyContainer = el}></div>
     );
   }
 }

@@ -1,6 +1,6 @@
-import { debounce } from "ts-debounce";
-import { EventEmitter } from "@stencil/core";
-import { EventObject } from "cytoscape";
+import { EventEmitter } from '@stencil/core';
+import { EventObject } from 'cytoscape';
+import { debounce } from 'ts-debounce';
 
 export function emit(emitter: EventEmitter, event: EventObject): void {
   emitter.emit(event);

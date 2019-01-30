@@ -1,4 +1,4 @@
-import { CollectionReturnValue, Core, ElementDefinition, ElementsDefinition } from "cytoscape";
+import { CollectionReturnValue, Core, ElementDefinition, ElementsDefinition } from 'cytoscape';
 
 export function addNewGraph(
   cy: Core,

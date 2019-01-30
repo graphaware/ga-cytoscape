@@ -1,8 +1,8 @@
-import { Core, LayoutOptions, Layouts } from "cytoscape";
+import { Core, LayoutOptions, Layouts } from 'cytoscape';
 
 export interface LayoutWithOptions {
-  layout: Layouts,
-  options: LayoutOptions,
+  layout: Layouts;
+  options: LayoutOptions;
 }
 
 /**
