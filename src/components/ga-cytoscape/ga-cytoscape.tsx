@@ -6,6 +6,7 @@ import cytoscape, {
   EventObject,
   Ext,
   LayoutOptions,
+  Position,
   Singular,
   Stylesheet,
 } from 'cytoscape';
@@ -19,9 +20,13 @@ import { addNewGraph } from "../../utils/element-utils";
   shadow: false, // ShadowDOM has issues with mouseover/mouseout core events :(
 })
 export class GaCytoscape {
-  @Prop() elements: ElementsDefinition | ElementDefinition[] | undefined;
+  @Prop() elements?: ElementsDefinition | ElementDefinition[] | undefined;
   @Watch('elements')
   elementsChanged(newValue: ElementsDefinition | ElementDefinition[] | undefined): void {
+    if (!this.cy) {
+      throw new Error("Elements changed without Cytoscape ready, should not happen")
+    }
+
     addNewGraph(this.cy, newValue);
     this.cy.fit(undefined, 20);
 
@@ -30,32 +35,48 @@ export class GaCytoscape {
     }
   }
 
-  @Prop() stylesheet: Stylesheet[] | Promise<Stylesheet[]>;
-  @Watch('stylesheet')
-  styleChanged(newValue: Stylesheet | Stylesheet[] | string): void {
-    this.cy.style(newValue);
+  @Prop() layout?: LayoutOptions | LayoutOptions[] = { name: 'cose' };
+  @Watch('layout')
+  layoutChanged(newValue: LayoutOptions | LayoutOptions[] | undefined): void {
+    if (!this.cy) {
+      throw new Error("Layout changed without Cytoscape ready, should not happen")
+    }
+
+    this.currentLayoutsBatch = handleLayoutsChange(this.cy, this.currentLayoutsBatch, newValue);
   }
 
-  @Prop() layout: LayoutOptions | LayoutOptions[] = { name: 'cola' };
-  @Watch('layout')
-  layoutChanged(newValue: LayoutOptions | LayoutOptions[]): void {
-    this.currentLayoutsBatch = handleLayoutsChange(this.cy, this.currentLayoutsBatch, newValue);
+  @Prop() stylesheet?: Stylesheet[] | Promise<Stylesheet[]>;
+  @Watch('stylesheet')
+  styleChanged(newValue: Stylesheet | Stylesheet[] | string): void {
+    if (!this.cy) {
+      throw new Error("Style changed without Cytoscape ready, should not happen")
+    }
+
+    this.cy.style(newValue);
   }
 
   @Prop() plugins: Ext[] = [];
 
-  @Prop() selectableEdges: boolean = false;
+  @Prop() pan?: Position;
+  @Prop() maxZoom?: number;
+  @Prop() minZoom?: number;
+  @Prop() zoom?: number;
 
-  @Event() nodeClicked: EventEmitter<EventObject>;
-  @Event() edgeClicked: EventEmitter<EventObject>;
-  @Event() nodeMouseOver: EventEmitter<EventObject>;
-  @Event() edgeMouseOver: EventEmitter<EventObject>;
-  @Event() nodeMouseOut: EventEmitter<EventObject>;
-  @Event() edgeMouseOut: EventEmitter<EventObject>;
-  @Event() ctxmenu: EventEmitter<EventObject>;
+  @Prop() grabEnabled?: boolean = true;
+  @Prop() panEnabled?: boolean;
+  @Prop() selectableEdges?: boolean = false;
+  @Prop() zoomEnabled?: boolean;
 
-  cyContainer: HTMLDivElement;
-  cy: Core;
+  @Event() ctxmenu!: EventEmitter<EventObject>;
+  @Event() nodeClicked!: EventEmitter<EventObject>;
+  @Event() nodeMouseOut!: EventEmitter<EventObject>;
+  @Event() nodeMouseOver!: EventEmitter<EventObject>;
+  @Event() edgeClicked!: EventEmitter<EventObject>;
+  @Event() edgeMouseOut!: EventEmitter<EventObject>;
+  @Event() edgeMouseOver!: EventEmitter<EventObject>;
+
+  cyContainer?: HTMLDivElement;
+  cy?: Core;
   currentLayoutsBatch: LayoutWithOptions[] = [];
   clickDisabled: boolean = false;
 
@@ -65,11 +86,19 @@ export class GaCytoscape {
       cytoscape.use(plugin);
     });
 
-    this.cy = cytoscape({
+    const options: cytoscape.CytoscapeOptions = {
+      autoungrabify: this.grabEnabled,
       container: this.cyContainer,
       style: this.stylesheet,
+      pan: this.pan,
+      maxZoom: this.maxZoom,
+      minZoom: this.minZoom,
+      userPanningEnabled: this.panEnabled,
+      userZoomingEnabled: this.zoomEnabled,
       // wheelSensitivity: 0.33, // this gives annoying console warning
-    });
+      zoom: this.zoom,
+    };
+    this.cy = cytoscape(options);
 
     this.elementsChanged(this.elements);
     this.layoutChanged(this.layout);
@@ -84,6 +113,10 @@ export class GaCytoscape {
   }
 
   private registerEventHandlers(): void {
+    if (!this.cy) {
+      throw new Error("Registering event handlers without Cytoscape ready, should not happen")
+    }
+
     this.cy.on('tap', e => {
       if (this.clickDisabled) {
         this.clickDisabled = false;

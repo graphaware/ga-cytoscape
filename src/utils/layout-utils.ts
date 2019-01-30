@@ -15,13 +15,17 @@ export interface LayoutWithOptions {
 export function handleLayoutsChange(
   cy: Core,
   currentBatch: LayoutWithOptions[],
-  newLayoutOptions: LayoutOptions | LayoutOptions[],
+  newLayoutOptions: LayoutOptions | LayoutOptions[] | undefined,
 ): LayoutWithOptions[] {
   cy.stop(); // is this necessary?
   currentBatch.forEach(tuple => {
     tuple.layout.off('layoutstop');
     tuple.layout.stop();
   });
+
+  if (!newLayoutOptions) {
+    return [];
+  }
 
   let layoutIndex = 0;
   const newLayouts = Array.isArray(newLayoutOptions)

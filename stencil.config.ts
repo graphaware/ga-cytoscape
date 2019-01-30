@@ -1,6 +1,7 @@
 import { Config } from '@stencil/core';
 import { postcss } from '@stencil/postcss';
 import autoprefixer from 'autoprefixer';
+// @ts-ignore
 import postCSSnested from 'postcss-nested';
 
 export const config: Config = {

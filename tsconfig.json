@@ -15,13 +15,16 @@
     "noUnusedParameters": true,
     "jsx": "react",
     "jsxFactory": "h",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "strict": true
   },
   "include": [
+    "custom_typings",
     "src",
     "types/jsx.d.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "stencil.config.ts"
   ]
 }

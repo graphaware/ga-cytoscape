@@ -14,6 +14,7 @@ import {
   EventObject,
   Ext,
   LayoutOptions,
+  Position,
   Stylesheet,
 } from 'cytoscape';
 import {
@@ -24,15 +25,25 @@ import {
 export namespace Components {
 
   interface GaCytoscape {
-    'elements': ElementsDefinition | ElementDefinition[] | undefined;
-    'layout': LayoutOptions | LayoutOptions[];
+    'elements'?: ElementsDefinition | ElementDefinition[] | undefined;
+    'grabEnabled'?: boolean;
+    'layout'?: LayoutOptions | LayoutOptions[];
+    'maxZoom'?: number;
+    'minZoom'?: number;
+    'pan'?: Position;
+    'panEnabled'?: boolean;
     'plugins': Ext[];
-    'selectableEdges': boolean;
-    'stylesheet': Stylesheet[] | Promise<Stylesheet[]>;
+    'selectableEdges'?: boolean;
+    'stylesheet'?: Stylesheet[] | Promise<Stylesheet[]>;
+    'zoom'?: number;
+    'zoomEnabled'?: boolean;
   }
   interface GaCytoscapeAttributes extends StencilHTMLAttributes {
     'elements'?: ElementsDefinition | ElementDefinition[] | undefined;
+    'grabEnabled'?: boolean;
     'layout'?: LayoutOptions | LayoutOptions[];
+    'maxZoom'?: number;
+    'minZoom'?: number;
     'onCtxmenu'?: (event: CustomEvent<EventObject>) => void;
     'onEdgeClicked'?: (event: CustomEvent<EventObject>) => void;
     'onEdgeMouseOut'?: (event: CustomEvent<EventObject>) => void;
@@ -40,9 +51,13 @@ export namespace Components {
     'onNodeClicked'?: (event: CustomEvent<EventObject>) => void;
     'onNodeMouseOut'?: (event: CustomEvent<EventObject>) => void;
     'onNodeMouseOver'?: (event: CustomEvent<EventObject>) => void;
+    'pan'?: Position;
+    'panEnabled'?: boolean;
     'plugins'?: Ext[];
     'selectableEdges'?: boolean;
     'stylesheet'?: Stylesheet[] | Promise<Stylesheet[]>;
+    'zoom'?: number;
+    'zoomEnabled'?: boolean;
   }
 }
 
