@@ -7,11 +7,10 @@ import cytoscape, {
   Ext,
   LayoutOptions,
   Position,
-  Singular,
   Stylesheet,
 } from 'cytoscape';
 import { addNewGraph } from '../../utils/element-utils';
-import { emitDebounced } from '../../utils/event-utils';
+import { registerEventEmitters } from '../../utils/event-utils';
 import { handleLayoutsChange, LayoutWithOptions } from '../../utils/layout-utils';
 import { makeEdgesNonselectable } from '../../utils/selection-utils';
 
@@ -80,7 +79,6 @@ export class GaCytoscape {
   cyContainer?: HTMLDivElement;
   cy?: Core;
   currentLayoutsBatch: LayoutWithOptions[] = [];
-  clickDisabled: boolean = false;
 
   private componentDidLoad(): void {
     console.debug('ga-cytocape::componentDidLoad');
@@ -104,7 +102,17 @@ export class GaCytoscape {
 
     this.elementsChanged(this.elements);
     this.layoutChanged(this.layout);
-    this.registerEventHandlers();
+
+    registerEventEmitters(this.cy, [
+      { events: 'tap', selector: 'node', emitter: this.nodeClicked },
+      { events: 'tap', selector: 'edge', emitter: this.edgeClicked },
+      { events: 'cxttap', emitter: this.ctxmenu },
+      { events: 'mouseover', selector: 'node', emitter: this.nodeMouseOver },
+      { events: 'mouseover', selector: 'edge', emitter: this.edgeMouseOver },
+      { events: 'mouseout', selector: 'node', emitter: this.nodeMouseOut },
+      { events: 'mouseout', selector: 'edge', emitter: this.edgeMouseOut },
+      { events: 'select unselect', emitter: this.selectionChanged, debounce: true },
+    ]);
   }
 
   private componentDidUnload(): void {
@@ -112,46 +120,6 @@ export class GaCytoscape {
       this.cy.destroy();
       this.cy = undefined;
     }
-  }
-
-  private registerEventHandlers(): void {
-    if (!this.cy) {
-      throw new Error('Registering event handlers without Cytoscape ready, should not happen');
-    }
-
-    this.cy.on('tap', e => {
-      if (this.clickDisabled) {
-        this.clickDisabled = false;
-        return;
-      }
-
-      if (e.target !== this.cy) {
-        if ((e.target as Singular).isNode()) {
-          this.nodeClicked.emit(e);
-        } else {
-          this.edgeClicked.emit(e);
-        }
-      }
-    });
-    this.cy.on('cxttap taphold', e => {
-      this.clickDisabled = e.type === 'taphold'; // prevent launching another click/tap event after taphold
-      this.ctxmenu.emit(e);
-    });
-    this.cy.on('mouseover', 'node', e => {
-      this.nodeMouseOver.emit(e);
-    });
-    this.cy.on('mouseover', 'edge', e => {
-      this.edgeMouseOver.emit(e);
-    });
-    this.cy.on('mouseout', 'node', e => {
-      this.nodeMouseOut.emit(e);
-    });
-    this.cy.on('mouseout', 'edge', e => {
-      this.edgeMouseOut.emit(e);
-    });
-    this.cy.on('select unselect', e => {
-      emitDebounced(this.selectionChanged, e);
-    });
   }
 
   render() {
