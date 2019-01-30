@@ -44,3 +44,6 @@ cmp.addEventListener('edgeClicked', e => {
 cmp.addEventListener('ctxmenu', e => {
   console.log('ctxmenu', e.detail.target.data ? e.detail.target.data() : 'canvas');
 });
+cmp.addEventListener('selectionChanged', e => {
+  console.log('selectionChanged', e.detail.cy.elements(':selected').jsons());
+});

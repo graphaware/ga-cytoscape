@@ -51,6 +51,7 @@ export namespace Components {
     'onNodeClicked'?: (event: CustomEvent<EventObject>) => void;
     'onNodeMouseOut'?: (event: CustomEvent<EventObject>) => void;
     'onNodeMouseOver'?: (event: CustomEvent<EventObject>) => void;
+    'onSelectionChanged'?: (event: CustomEvent<EventObject>) => void;
     'pan'?: Position;
     'panEnabled'?: boolean;
     'plugins'?: Ext[];

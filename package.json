@@ -17,7 +17,8 @@
     "test.watch": "stencil test --spec --e2e --watchAll"
   },
   "dependencies": {
-    "cytoscape": "^3.3.3"
+    "cytoscape": "^3.3.3",
+    "ts-debounce": "^1.0.0"
   },
   "devDependencies": {
     "@stencil/core": "^0.17.0",

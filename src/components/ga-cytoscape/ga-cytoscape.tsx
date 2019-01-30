@@ -13,6 +13,7 @@ import cytoscape, {
 import { handleLayoutsChange, LayoutWithOptions } from "../../utils/layout-utils";
 import { makeEdgesNonselectable } from "../../utils/selection-utils";
 import { addNewGraph } from "../../utils/element-utils";
+import { emitDebounced } from "../../utils/event-utils";
 
 @Component({
   tag: 'ga-cytoscape',
@@ -74,6 +75,7 @@ export class GaCytoscape {
   @Event() edgeClicked!: EventEmitter<EventObject>;
   @Event() edgeMouseOut!: EventEmitter<EventObject>;
   @Event() edgeMouseOver!: EventEmitter<EventObject>;
+  @Event() selectionChanged!: EventEmitter<EventObject>;
 
   cyContainer?: HTMLDivElement;
   cy?: Core;
@@ -147,6 +149,9 @@ export class GaCytoscape {
     this.cy.on('mouseout', 'edge', e => {
       this.edgeMouseOut.emit(e);
     });
+    this.cy.on('select unselect', e => {
+      emitDebounced(this.selectionChanged, e);
+    })
   }
 
   render() {
