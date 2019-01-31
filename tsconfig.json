@@ -16,7 +16,8 @@
     "jsx": "react",
     "jsxFactory": "h",
     "esModuleInterop": true,
-    "strict": true
+    "strict": true,
+    "strictPropertyInitialization": false
   },
   "include": [
     "custom_typings",

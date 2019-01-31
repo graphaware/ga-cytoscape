@@ -9,12 +9,17 @@ import '@stencil/core';
 
 
 import {
+  CollectionArgument,
+  CollectionReturnValue,
+  EdgeCollection,
   ElementDefinition,
   ElementsDefinition,
   EventObject,
   Ext,
   LayoutOptions,
+  NodeCollection,
   Position,
+  Selector,
   Stylesheet,
 } from 'cytoscape';
 import {
@@ -25,7 +30,13 @@ import {
 export namespace Components {
 
   interface GaCytoscape {
+    '$': (selector: string) => Promise<cytoscape.CollectionReturnValue>;
+    '$id': (id: string) => Promise<cytoscape.CollectionReturnValue>;
+    'addElements': (elements: cytoscape.EdgeSingular | cytoscape.NodeSingular | cytoscape.Collection<cytoscape.SingularElementReturnValue, cytoscape.SingularElementArgument> | cytoscape.EdgeCollection | cytoscape.NodeCollection | cytoscape.ElementDefinition | cytoscape.ElementDefinition[]) => Promise<cytoscape.CollectionReturnValue>;
     'elements'?: ElementsDefinition | ElementDefinition[] | undefined;
+    'endBatch': () => Promise<void>;
+    'getEdges': (selector?: string | undefined) => Promise<cytoscape.EdgeCollection>;
+    'getNodes': (selector?: string | undefined) => Promise<cytoscape.NodeCollection>;
     'grabEnabled'?: boolean;
     'layout'?: LayoutOptions | LayoutOptions[];
     'maxZoom'?: number;
@@ -33,7 +44,9 @@ export namespace Components {
     'pan'?: Position;
     'panEnabled'?: boolean;
     'plugins': Ext[];
+    'removeElements': (elements: string | cytoscape.EdgeSingular | cytoscape.NodeSingular | cytoscape.Collection<cytoscape.SingularElementReturnValue, cytoscape.SingularElementArgument> | cytoscape.EdgeCollection | cytoscape.NodeCollection) => Promise<cytoscape.CollectionReturnValue>;
     'selectableEdges'?: boolean;
+    'startBatch': () => Promise<void>;
     'stylesheet'?: Stylesheet[] | Promise<Stylesheet[]>;
     'zoom'?: number;
     'zoomEnabled'?: boolean;

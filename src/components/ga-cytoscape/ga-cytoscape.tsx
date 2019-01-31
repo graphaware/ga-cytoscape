@@ -1,12 +1,17 @@
-import { Component, Event, EventEmitter, Prop, Watch } from '@stencil/core';
+import { Component, Event, EventEmitter, Method, Prop, Watch } from '@stencil/core';
 import cytoscape, {
+  CollectionArgument,
+  CollectionReturnValue,
   Core,
+  EdgeCollection,
   ElementDefinition,
   ElementsDefinition,
   EventObject,
   Ext,
   LayoutOptions,
+  NodeCollection,
   Position,
+  Selector,
   Stylesheet,
 } from 'cytoscape';
 import { addNewGraph } from '../../utils/element-utils';
@@ -67,18 +72,72 @@ export class GaCytoscape {
   @Prop() selectableEdges?: boolean = false;
   @Prop() zoomEnabled?: boolean;
 
-  @Event() ctxmenu!: EventEmitter<EventObject>;
-  @Event() nodeClicked!: EventEmitter<EventObject>;
-  @Event() nodeMouseOut!: EventEmitter<EventObject>;
-  @Event() nodeMouseOver!: EventEmitter<EventObject>;
-  @Event() edgeClicked!: EventEmitter<EventObject>;
-  @Event() edgeMouseOut!: EventEmitter<EventObject>;
-  @Event() edgeMouseOver!: EventEmitter<EventObject>;
-  @Event() selectionChanged!: EventEmitter<EventObject>;
+  @Event() ctxmenu: EventEmitter<EventObject>;
+  @Event() nodeClicked: EventEmitter<EventObject>;
+  @Event() nodeMouseOut: EventEmitter<EventObject>;
+  @Event() nodeMouseOver: EventEmitter<EventObject>;
+  @Event() edgeClicked: EventEmitter<EventObject>;
+  @Event() edgeMouseOut: EventEmitter<EventObject>;
+  @Event() edgeMouseOver: EventEmitter<EventObject>;
+  @Event() selectionChanged: EventEmitter<EventObject>;
 
   cyContainer?: HTMLDivElement;
   cy?: Core;
+  cyPromise: Promise<Core> = new Promise(resolve => {
+    this.cyResolver = resolve;
+  });
+  cyResolver: (value: Core) => void;
   currentLayoutsBatch: LayoutWithOptions[] = [];
+
+  @Method()
+  async addElements(
+    elements: ElementDefinition | ElementDefinition[] | CollectionArgument,
+  ): Promise<CollectionReturnValue> {
+    const cy = await this.cyPromise;
+    return cy.add(elements);
+  }
+
+  @Method()
+  async removeElements(elements: CollectionArgument | Selector): Promise<CollectionReturnValue> {
+    const cy = await this.cyPromise;
+    return cy.remove(elements);
+  }
+
+  @Method()
+  async $id(id: string): Promise<CollectionReturnValue> {
+    const cy = await this.cyPromise;
+    return cy.$id(id);
+  }
+
+  @Method()
+  async $(selector: Selector): Promise<CollectionReturnValue> {
+    const cy = await this.cyPromise;
+    return cy.$(selector);
+  }
+
+  @Method()
+  async getNodes(selector?: Selector): Promise<NodeCollection> {
+    const cy = await this.cyPromise;
+    return cy.nodes(selector);
+  }
+
+  @Method()
+  async getEdges(selector?: Selector): Promise<EdgeCollection> {
+    const cy = await this.cyPromise;
+    return cy.edges(selector);
+  }
+
+  @Method()
+  async startBatch(): Promise<void> {
+    const cy = await this.cyPromise;
+    return cy.startBatch();
+  }
+
+  @Method()
+  async endBatch(): Promise<void> {
+    const cy = await this.cyPromise;
+    return cy.endBatch();
+  }
 
   private componentDidLoad(): void {
     console.debug('ga-cytocape::componentDidLoad');
@@ -99,6 +158,7 @@ export class GaCytoscape {
       zoom: this.zoom,
     };
     this.cy = cytoscape(options);
+    this.cyResolver(this.cy);
 
     this.elementsChanged(this.elements);
     this.layoutChanged(this.layout);
