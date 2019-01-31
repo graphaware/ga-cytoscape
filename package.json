@@ -15,7 +15,7 @@
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+    "lint": "tslint -c tslint.json -t verbose 'src/**/*.{ts,tsx}'"
   },
   "dependencies": {
     "cytoscape": "^3.3.3",

@@ -20,11 +20,9 @@
   },
   "include": [
     "custom_typings",
-    "src",
-    "types/jsx.d.ts"
+    "src"
   ],
   "exclude": [
-    "node_modules",
-    "stencil.config.ts"
+    "node_modules"
   ]
 }
