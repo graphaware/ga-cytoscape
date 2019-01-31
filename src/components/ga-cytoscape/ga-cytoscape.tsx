@@ -14,10 +14,12 @@ import cytoscape, {
   Selector,
   Stylesheet,
 } from 'cytoscape';
-import { addNewGraph } from '../../utils/element-utils';
-import { registerEventEmitters } from '../../utils/event-utils';
-import { handleLayoutsChange, LayoutWithOptions } from '../../utils/layout-utils';
-import { makeEdgesNonselectable } from '../../utils/selection-utils';
+import {
+  ElementUtils,
+  EventUtils,
+  LayoutUtils,
+  SelectionUtils,
+} from '../../lib';
 
 @Component({
   tag: 'ga-cytoscape',
@@ -32,11 +34,11 @@ export class GaCytoscape {
       throw new Error('Elements changed without Cytoscape ready, should not happen');
     }
 
-    addNewGraph(this.cy, newValue);
+    ElementUtils.addNewGraph(this.cy, newValue);
     this.cy.fit(undefined, 20);
 
     if (!this.selectableEdges) {
-      makeEdgesNonselectable(this.cy);
+      SelectionUtils.makeEdgesNonselectable(this.cy);
     }
   }
 
@@ -47,7 +49,7 @@ export class GaCytoscape {
       throw new Error('Layout changed without Cytoscape ready, should not happen');
     }
 
-    this.currentLayoutsBatch = handleLayoutsChange(this.cy, this.currentLayoutsBatch, newValue);
+    this.currentLayoutsBatch = LayoutUtils.handleLayoutsChange(this.cy, this.currentLayoutsBatch, newValue);
   }
 
   @Prop() stylesheet?: Stylesheet[] | Promise<Stylesheet[]>;
@@ -87,7 +89,7 @@ export class GaCytoscape {
     this.cyResolver = resolve;
   });
   cyResolver: (value: Core) => void;
-  currentLayoutsBatch: LayoutWithOptions[] = [];
+  currentLayoutsBatch: LayoutUtils.LayoutWithOptions[] = [];
 
   @Method()
   async addElements(
@@ -163,7 +165,7 @@ export class GaCytoscape {
     this.elementsChanged(this.elements);
     this.layoutChanged(this.layout);
 
-    registerEventEmitters(this.cy, [
+    EventUtils.registerEventEmitters(this.cy, [
       { events: 'tap', selector: 'node', emitter: this.nodeClicked },
       { events: 'tap', selector: 'edge', emitter: this.edgeClicked },
       { events: 'cxttap', emitter: this.ctxmenu },
