@@ -3,22 +3,25 @@ import { CollectionReturnValue, Core, ElementDefinition, ElementsDefinition } fr
 export function addNewGraph(
   cy: Core,
   elements: ElementsDefinition | ElementDefinition[] | undefined,
-): CollectionReturnValue | undefined {
+): CollectionReturnValue {
   // remove all previous elements
   cy.elements().remove();
 
   if (elements) {
     // flatten if defined as {nodes, edges}
-    const prenormalizedElements = elements as ElementsDefinition;
-    if (prenormalizedElements.nodes || prenormalizedElements.edges) {
-      elements = normalizeElements(prenormalizedElements);
-    }
+    elements = normalizeElements(elements);
     return cy.add(elements as ElementDefinition[]);
+  } else {
+    return cy.collection();
   }
-
-  return undefined;
 }
 
-export function normalizeElements(elements: ElementsDefinition): ElementDefinition[] {
-  return [...(elements.nodes || []), ...(elements.edges || [])];
+export function normalizeElements(elements: ElementsDefinition | ElementDefinition[]): ElementDefinition[] {
+  const prenormalizedElements = elements as ElementsDefinition;
+
+  if (!Array.isArray(elements) && prenormalizedElements.nodes || prenormalizedElements.edges) {
+    return [...(prenormalizedElements.nodes || []), ...(prenormalizedElements.edges || [])];
+  } else {
+    return elements as ElementDefinition[];
+  }
 }
