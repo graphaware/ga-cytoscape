@@ -11,6 +11,7 @@ import '@stencil/core';
 import {
   CollectionArgument,
   CollectionReturnValue,
+  Core,
   EdgeCollection,
   ElementDefinition,
   ElementsDefinition,
@@ -33,6 +34,7 @@ export namespace Components {
     '$': (selector: string) => Promise<cytoscape.CollectionReturnValue>;
     '$id': (id: string) => Promise<cytoscape.CollectionReturnValue>;
     'addElements': (elements: cytoscape.EdgeSingular | cytoscape.NodeSingular | cytoscape.Collection<cytoscape.SingularElementReturnValue, cytoscape.SingularElementArgument> | cytoscape.EdgeCollection | cytoscape.NodeCollection | cytoscape.ElementDefinition | cytoscape.ElementDefinition[]) => Promise<cytoscape.CollectionReturnValue>;
+    'cy'?: Core;
     'elements'?: ElementsDefinition | ElementDefinition[] | undefined;
     'endBatch': () => Promise<void>;
     'getEdges': (selector?: string | undefined) => Promise<cytoscape.EdgeCollection>;
@@ -52,6 +54,7 @@ export namespace Components {
     'zoomEnabled'?: boolean;
   }
   interface GaCytoscapeAttributes extends StencilHTMLAttributes {
+    'cy'?: Core;
     'elements'?: ElementsDefinition | ElementDefinition[] | undefined;
     'grabEnabled'?: boolean;
     'layout'?: LayoutOptions | LayoutOptions[];

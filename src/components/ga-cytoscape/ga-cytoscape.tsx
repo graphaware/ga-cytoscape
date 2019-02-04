@@ -27,6 +27,9 @@ import {
   shadow: false, // ShadowDOM has issues with mouseover/mouseout core events :(
 })
 export class GaCytoscape {
+  // direct access to cytoscape instance (mutable), handle with care
+  @Prop({ mutable: true }) cy?: Core;
+
   @Prop() elements?: ElementsDefinition | ElementDefinition[] | undefined;
   @Watch('elements')
   elementsChanged(newValue: ElementsDefinition | ElementDefinition[] | undefined): void {
@@ -84,7 +87,6 @@ export class GaCytoscape {
   @Event() selectionChanged: EventEmitter<EventObject>;
 
   cyContainer?: HTMLDivElement;
-  cy?: Core;
   cyPromise: Promise<Core> = new Promise(resolve => {
     this.cyResolver = resolve;
   });
