@@ -22,7 +22,7 @@
     "ts-debounce": "^1.0.0"
   },
   "devDependencies": {
-    "@stencil/core": "^0.17.0",
+    "@stencil/core": "^0.17.1",
     "@stencil/postcss": "^0.1.0",
     "@stencil/sass": "^0.1.1",
     "@types/autoprefixer": "^9.1.1",
