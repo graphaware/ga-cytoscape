@@ -150,7 +150,7 @@ export class GaCytoscape {
     });
 
     const options: cytoscape.CytoscapeOptions = {
-      autoungrabify: this.grabEnabled,
+      autoungrabify: !this.grabEnabled,
       container: this.cyContainer,
       style: this.stylesheet,
       pan: this.pan,
