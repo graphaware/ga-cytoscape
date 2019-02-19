@@ -144,7 +144,6 @@ export class GaCytoscape {
   }
 
   private componentDidLoad(): void {
-    console.debug('ga-cytocape::componentDidLoad');
     this.plugins.forEach(plugin => {
       cytoscape.use(plugin);
     });
