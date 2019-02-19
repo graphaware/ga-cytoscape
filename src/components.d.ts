@@ -48,6 +48,7 @@ export namespace Components {
     'plugins': Ext[];
     'removeElements': (elements: string | cytoscape.EdgeSingular | cytoscape.NodeSingular | cytoscape.Collection<cytoscape.SingularElementReturnValue, cytoscape.SingularElementArgument> | cytoscape.EdgeCollection | cytoscape.NodeCollection) => Promise<cytoscape.CollectionReturnValue>;
     'selectableEdges'?: boolean;
+    'selected'?: ElementDefinition[];
     'startBatch': () => Promise<void>;
     'stylesheet'?: Stylesheet[] | Promise<Stylesheet[]>;
     'zoom'?: number;
@@ -72,6 +73,7 @@ export namespace Components {
     'panEnabled'?: boolean;
     'plugins'?: Ext[];
     'selectableEdges'?: boolean;
+    'selected'?: ElementDefinition[];
     'stylesheet'?: Stylesheet[] | Promise<Stylesheet[]>;
     'zoom'?: number;
     'zoomEnabled'?: boolean;

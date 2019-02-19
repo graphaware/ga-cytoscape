@@ -65,6 +65,24 @@ export class GaCytoscape {
     this.cy.style(newValue);
   }
 
+  @Prop() selected?: ElementDefinition[];
+  @Watch('selected')
+  selectedChanged(newValue: ElementDefinition[] | undefined): void {
+    if (!this.cy) {
+      throw new Error('Selected elements changed without Cytoscape ready, should not happen');
+    }
+
+    this.cy.startBatch();
+    this.cy.nodes(':selected').unselect();
+    (newValue || []).forEach(el => {
+      if (this.cy && el.data.id != undefined) {
+        const elMatch = this.cy.$id(el.data.id);
+        elMatch.select();
+      }
+    });
+    this.cy.endBatch();
+  }
+
   @Prop() plugins: Ext[] = [];
 
   @Prop() pan?: Position;
@@ -165,6 +183,10 @@ export class GaCytoscape {
 
     this.elementsChanged(this.elements);
     this.layoutChanged(this.layout);
+
+    if (this.selected) {
+      this.selectedChanged(this.selected);
+    }
 
     EventUtils.registerEventEmitters(this.cy, [
       { events: 'tap', selector: 'node', emitter: this.nodeClicked },
