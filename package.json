@@ -18,24 +18,24 @@
     "lint": "tslint -c tslint.json -t verbose 'src/**/*.{ts,tsx}'"
   },
   "dependencies": {
-    "cytoscape": "^3.4.1",
+    "cytoscape": "^3.5.0",
     "ts-debounce": "^1.0.0"
   },
   "devDependencies": {
     "@stencil/core": "^0.18.0",
     "@stencil/postcss": "^0.1.0",
     "@stencil/sass": "^0.1.1",
-    "@types/autoprefixer": "^9.1.1",
-    "@types/cytoscape": "^3.2.9",
+    "@types/autoprefixer": "^9.4.0",
+    "@types/cytoscape": "^3.3.0",
     "@types/jest": "23.3.14",
     "@types/puppeteer": "1.11.3",
-    "autoprefixer": "^9.4.7",
+    "autoprefixer": "^9.4.10",
     "jest": "23.6.0",
     "jest-cli": "23.6.0",
-    "postcss-nested": "^4.1.1",
-    "postcss-preset-env": "^6.5.0",
+    "postcss-nested": "^4.1.2",
+    "postcss-preset-env": "^6.6.0",
     "puppeteer": "1.11.0",
-    "tslint": "^5.12.1",
+    "tslint": "^5.13.1",
     "tslint-stencil": "^1.0.0"
   },
   "license": "MIT"
