@@ -21,7 +21,7 @@ applyDataFile(dataSelect.value);
 cmp.plugins = [cytoscapeCola, cytoscapeCoseBilkent];
 cmp.selected = [{ data: { id: "0" } }, { data: { id: "1" } }];
 
-// demo seletor listeners
+// demo selector listeners
 layoutSelect.addEventListener('change', () => {
   applyLayout(layoutSelect.value);
 });
