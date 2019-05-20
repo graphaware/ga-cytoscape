@@ -1,14 +1,13 @@
 import { Config } from '@stencil/core';
 import { postcss } from '@stencil/postcss';
 import autoprefixer from 'autoprefixer';
-// @ts-ignore
 import postCSSnested from 'postcss-nested';
 
 export const config: Config = {
-  namespace: 'ga-cytoscape',
+  namespace: 'GACytoscape', // 'ga-cytoscape' does not work because of a bug in Stencil One
   outputTargets:[
     { type: 'dist' },
-    { type: 'docs' },
+    { type: 'docs-readme' },
     {
       type: 'www',
       serviceWorker: null, // disable service workers

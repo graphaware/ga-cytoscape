@@ -1,12 +1,14 @@
 {
   "name": "ga-cytoscape",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Cytoscape.js Web Component built with Stencil @GraphAware",
-  "module": "dist/esm/index.js",
   "main": "dist/index.js",
-  "unpkg": "dist/ionic.js",
+  "module": "dist/index.mjs",
+  "es2015": "dist/esm/index.mjs",
+  "es2017": "dist/esm/index.mjs",
   "types": "dist/types/components.d.ts",
   "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
   "files": [
     "dist/"
   ],
@@ -18,25 +20,27 @@
     "lint": "tslint -c tslint.json -t verbose 'src/**/*.{ts,tsx}'"
   },
   "dependencies": {
-    "cytoscape": "^3.5.5",
+    "cytoscape": "^3.5.7",
     "ts-debounce": "^1.0.0"
   },
   "devDependencies": {
-    "@stencil/core": "^0.18.1",
+    "@stencil/core": "^1.0.0-beta.1",
     "@stencil/postcss": "^0.1.0",
     "@stencil/sass": "^0.2.1",
-    "@types/autoprefixer": "^9.4.0",
-    "@types/cytoscape": "^3.4.1",
+    "@types/autoprefixer": "^9.5.0",
+    "@types/cytoscape": "^3.4.2",
     "@types/jest": "23.3.14",
-    "@types/puppeteer": "1.11.3",
+    "@types/postcss-nested": "^4.1.0",
+    "@types/puppeteer": "1.12.2",
     "autoprefixer": "^9.5.1",
     "jest": "23.6.0",
     "jest-cli": "23.6.0",
     "postcss-nested": "^4.1.2",
     "postcss-preset-env": "^6.6.0",
-    "puppeteer": "1.11.0",
+    "puppeteer": "1.14.0",
     "tslint": "^5.16.0",
-    "tslint-stencil": "^1.0.1"
+    "tslint-stencil": "^1.0.1",
+    "yargs": "^13.2.4"
   },
   "license": "MIT"
 }

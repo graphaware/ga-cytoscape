@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, Method, Prop, Watch } from '@stencil/core';
+import { Component, Event, EventEmitter, h, Method, Prop, Watch } from '@stencil/core';
 import cytoscape, {
   CollectionArgument,
   CollectionReturnValue,

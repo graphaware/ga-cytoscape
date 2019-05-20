@@ -21,7 +21,8 @@
   },
   "include": [
     "custom_typings",
-    "src"
+    "src",
+    "types/jsx.d.ts"
   ],
   "exclude": [
     "node_modules"

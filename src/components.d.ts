@@ -5,9 +5,8 @@
  */
 
 
-import '@stencil/core';
-
-
+import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
+import { JSX } from '@stencil/core';
 import {
   CollectionArgument,
   CollectionReturnValue,
@@ -23,17 +22,13 @@ import {
   Selector,
   Stylesheet,
 } from 'cytoscape';
-import {
-  EventEmitter,
-} from '@stencil/core';
 
 
 export namespace Components {
-
   interface GaCytoscape {
     '$': (selector: string) => Promise<cytoscape.CollectionReturnValue>;
     '$id': (id: string) => Promise<cytoscape.CollectionReturnValue>;
-    'addElements': (elements: cytoscape.EdgeSingular | cytoscape.NodeSingular | cytoscape.Collection<cytoscape.SingularElementReturnValue, cytoscape.SingularElementArgument> | cytoscape.EdgeCollection | cytoscape.NodeCollection | cytoscape.ElementDefinition | cytoscape.ElementDefinition[]) => Promise<cytoscape.CollectionReturnValue>;
+    'addElements': (elements: cytoscape.ElementDefinition | cytoscape.ElementDefinition[] | cytoscape.EdgeSingular | cytoscape.NodeSingular | cytoscape.Collection<cytoscape.SingularElementReturnValue, cytoscape.SingularElementArgument> | cytoscape.EdgeCollection | cytoscape.NodeCollection) => Promise<cytoscape.CollectionReturnValue>;
     'cy'?: Core;
     'elements'?: ElementsDefinition | ElementDefinition[] | undefined;
     'endBatch': () => Promise<void>;
@@ -54,7 +49,10 @@ export namespace Components {
     'zoom'?: number;
     'zoomEnabled'?: boolean;
   }
-  interface GaCytoscapeAttributes extends StencilHTMLAttributes {
+}
+
+declare namespace LocalJSX {
+  interface GaCytoscape extends JSXBase.HTMLAttributes {
     'cy'?: Core;
     'elements'?: ElementsDefinition | ElementDefinition[] | undefined;
     'grabEnabled'?: boolean;
@@ -78,16 +76,24 @@ export namespace Components {
     'zoom'?: number;
     'zoomEnabled'?: boolean;
   }
+
+  interface IntrinsicElements {
+    'ga-cytoscape': GaCytoscape;
+  }
 }
 
-declare global {
-  interface StencilElementInterfaces {
-    'GaCytoscape': Components.GaCytoscape;
-  }
+export { LocalJSX as JSX };
 
-  interface StencilIntrinsicElements {
-    'ga-cytoscape': Components.GaCytoscapeAttributes;
+
+declare module "@stencil/core" {
+  export namespace JSX {
+    interface IntrinsicElements extends LocalJSX.IntrinsicElements {}
   }
+}
+
+
+declare global {
+
 
 
   interface HTMLGaCytoscapeElement extends Components.GaCytoscape, HTMLStencilElement {}
@@ -97,20 +103,9 @@ declare global {
   };
 
   interface HTMLElementTagNameMap {
-    'ga-cytoscape': HTMLGaCytoscapeElement
-  }
-
-  interface ElementTagNameMap {
     'ga-cytoscape': HTMLGaCytoscapeElement;
   }
 
-
-  export namespace JSX {
-    export interface Element {}
-    export interface IntrinsicElements extends StencilIntrinsicElements {
-      [tagName: string]: any;
-    }
-  }
-  export interface HTMLAttributes extends StencilHTMLAttributes {}
-
+  interface ElementTagNameMap extends HTMLElementTagNameMap {}
 }
+
