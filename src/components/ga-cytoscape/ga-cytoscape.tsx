@@ -90,10 +90,10 @@ export class GaCytoscape {
   @Prop() minZoom?: number; // 1e-50
   @Prop() zoom?: number; // 1
 
-  @Prop() grabEnabled?: boolean = true;
-  @Prop() panEnabled?: boolean = false;
+  @Prop() grabEnabled?: boolean = false;
+  @Prop() panEnabled?: boolean = true;
   @Prop() selectableEdges?: boolean = false;
-  @Prop() zoomEnabled?: boolean = false;
+  @Prop() zoomEnabled?: boolean = true;
 
   @Event() ctxmenu: EventEmitter<EventObject>;
   @Event() nodeClicked: EventEmitter<EventObject>;

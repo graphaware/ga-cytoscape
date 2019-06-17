@@ -4,7 +4,7 @@ import autoprefixer from 'autoprefixer';
 import postCSSnested from 'postcss-nested';
 
 export const config: Config = {
-  namespace: 'GACytoscape', // 'ga-cytoscape' does not work because of a bug in Stencil One
+  namespace: 'gacytoscape', // 'ga-cytoscape' does not work because of a bug in Stencil One
   outputTargets:[
     { type: 'dist' },
     { type: 'docs-readme' },
@@ -17,9 +17,7 @@ export const config: Config = {
     postcss({
       plugins: [
         postCSSnested(),
-        autoprefixer({
-          browsers: ['last 2 Chrome versions'],
-        }),
+        autoprefixer(),
       ],
     }),
   ],

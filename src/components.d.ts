@@ -22,7 +22,6 @@ import {
   Stylesheet,
 } from 'cytoscape';
 
-
 export namespace Components {
   interface GaCytoscape {
     '$': (selector: string) => Promise<cytoscape.CollectionReturnValue>;
@@ -50,8 +49,21 @@ export namespace Components {
   }
 }
 
+declare global {
+
+
+  interface HTMLGaCytoscapeElement extends Components.GaCytoscape, HTMLStencilElement {}
+  var HTMLGaCytoscapeElement: {
+    prototype: HTMLGaCytoscapeElement;
+    new (): HTMLGaCytoscapeElement;
+  };
+  interface HTMLElementTagNameMap {
+    'ga-cytoscape': HTMLGaCytoscapeElement;
+  }
+}
+
 declare namespace LocalJSX {
-  interface GaCytoscape extends JSXBase.HTMLAttributes {
+  interface GaCytoscape extends JSXBase.HTMLAttributes<HTMLGaCytoscapeElement> {
     'cy'?: Core;
     'elements'?: ElementsDefinition | ElementDefinition[] | undefined;
     'grabEnabled'?: boolean;
@@ -90,21 +102,4 @@ declare module "@stencil/core" {
   }
 }
 
-
-declare global {
-
-
-
-  interface HTMLGaCytoscapeElement extends Components.GaCytoscape, HTMLStencilElement {}
-  var HTMLGaCytoscapeElement: {
-    prototype: HTMLGaCytoscapeElement;
-    new (): HTMLGaCytoscapeElement;
-  };
-
-  interface HTMLElementTagNameMap {
-    'ga-cytoscape': HTMLGaCytoscapeElement;
-  }
-
-  interface ElementTagNameMap extends HTMLElementTagNameMap {}
-}
 

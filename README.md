@@ -46,8 +46,8 @@ Attribute | Type | Default | Description
 `maxZoom` | `number` | `1e50` | A maximum bound on the zoom level of the graph. The viewport can not be scaled larger than this zoom level.
 `minZoom` | `number` | `1e-50` | A minimum bound on the zoom level of the graph. The viewport can not be scaled smaller than this zoom level.
 `zoom` | `number` | `1` | The initial zoom level of the graph.
-`grabEnabled` | `boolean` | `true` | Allow grabbing nodes and moving them around.
-`panEnabled` | `boolean` | `false` | Allow panning.
+`grabEnabled` | `boolean` | `false` | Allow grabbing nodes and moving them around.
+`panEnabled` | `boolean` | `true` | Allow panning.
 `selectableEdges` | `boolean` | `false` | Allow selecting edges.
 `zoomEnabled` | `boolean` | `true` | Allow zooming.
 
