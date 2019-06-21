@@ -25,11 +25,11 @@
     "lint": "tslint -c tslint.json -t verbose 'src/**/*.{ts,tsx}'"
   },
   "dependencies": {
-    "cytoscape": "^3.7.1",
+    "cytoscape": "^3.7.2",
     "ts-debounce": "^1.0.0"
   },
   "devDependencies": {
-    "@stencil/core": "^1.0.4",
+    "@stencil/core": "^1.0.7",
     "@stencil/postcss": "^1.0.1",
     "@stencil/sass": "^1.0.0",
     "@types/autoprefixer": "^9.5.0",
