@@ -26,27 +26,27 @@
     "lint": "tslint -c tslint.json -t verbose 'src/**/*.{ts,tsx}'"
   },
   "dependencies": {
-    "cytoscape": "^3.7.2",
+    "cytoscape": "^3.10.0",
     "ts-debounce": "^1.0.0"
   },
   "devDependencies": {
-    "@stencil/core": "^1.0.7",
+    "@stencil/core": "^1.4.0",
     "@stencil/postcss": "^1.0.1",
-    "@stencil/sass": "^1.0.0",
-    "@types/autoprefixer": "^9.5.0",
-    "@types/cytoscape": "^3.4.3",
+    "@stencil/sass": "^1.0.1",
+    "@types/autoprefixer": "^9.6.1",
+    "@types/cytoscape": "^3.8.2",
     "@types/jest": "24.0.15",
     "@types/postcss-nested": "^4.1.0",
-    "@types/puppeteer": "1.12.4",
-    "autoprefixer": "^9.6.0",
+    "@types/puppeteer": "1.19.1",
+    "autoprefixer": "^9.6.1",
     "jest": "24.8.0",
     "jest-cli": "24.8.0",
     "postcss-nested": "^4.1.2",
-    "postcss-preset-env": "^6.6.0",
-    "puppeteer": "1.17.0",
-    "tslint": "^5.17.0",
+    "postcss-preset-env": "^6.7.0",
+    "puppeteer": "1.19.0",
+    "tslint": "^5.20.0",
     "tslint-stencil": "^1.0.1",
-    "yargs": "^13.2.4"
+    "yargs": "^14.0.0"
   },
   "license": "MIT"
 }

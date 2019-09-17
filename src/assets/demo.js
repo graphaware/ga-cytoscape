@@ -20,6 +20,7 @@ applyDataFile(dataSelect.value);
 // set cytoscape plugins
 cmp.plugins = [cytoscapeCola, cytoscapeCoseBilkent];
 cmp.selected = [{ data: { id: "0" } }, { data: { id: "1" } }];
+cmp.grabEnabled = true;
 
 // demo selector listeners
 layoutSelect.addEventListener('change', () => {
